@@ -10,6 +10,8 @@ public class CardGame : MonoBehaviour
     private Card firstCard = null;
     private Card secondCard = null;
 
+    private bool isChecking = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -58,11 +60,14 @@ public class CardGame : MonoBehaviour
         for (int i = 0; i < cards.Count; i++)
         {
             cards[i].SetCardNum(randomPairNum[i]);
+
         }
     }
 
     private void CheckCard()
     {
+        isChecking = true;
+
         if(firstCard.cardNum == secondCard.cardNum)
         {
             // 정답
@@ -75,6 +80,8 @@ public class CardGame : MonoBehaviour
 
             firstCard = null;
             secondCard = null;
+
+            isChecking = false;
         }
         else
         {
@@ -88,19 +95,31 @@ public class CardGame : MonoBehaviour
     {
         firstCard.isFront = false;
         secondCard.isFront = false;
+
+        firstCard.Flip(false);
+        secondCard.Flip(false);
+
+        firstCard = null;
+        secondCard = null;
+
+        isChecking = false;
     }
 
     public void OnClickCard(Card Card)
     {
+        if (isChecking) return;
+
         // 카드가 선택되면 호출
 
         if (firstCard == null)
         {
             firstCard = Card;
+            firstCard.Flip(true);
         }
-        else
+        else if (firstCard != Card)
         {
             secondCard = Card;
+            secondCard.Flip(true);
         }
 
         if(firstCard != null && secondCard != null)
@@ -108,4 +127,12 @@ public class CardGame : MonoBehaviour
             CheckCard();
         }
     }
+
+    // 무작위 페어 넘버의 알고리즘
+    //List<int> GeneratePairNumbers(int cardCount)
+    //{
+    //    // 페어 카드 넘버 생성
+    //    int pairCount = cardCount / 2;
+    //}
+
 }

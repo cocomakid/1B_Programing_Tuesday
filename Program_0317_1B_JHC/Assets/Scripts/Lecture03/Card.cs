@@ -48,8 +48,13 @@ public class Card : MonoBehaviour
         if (!isMatched)
         {
             cardGame.OnClickCard(this);
-            isFront = true;
+            //isFront = true;
         }
+    }
+
+    public void Flip(bool isFront)
+    {
+        this.isFront = isFront;
     }
 
     public void SetCardNum(int newNum)
